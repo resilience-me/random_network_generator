@@ -1,3 +1,4 @@
+
 var RippleWallet = require('./node_modules/ripple-wallet/lib/wallet.js');
 
 var mongojs = require("mongojs")
@@ -40,31 +41,42 @@ function loop(){
 function create_collection(address){
    console.log('Adding to MongoDB:', address);
     
-    //get taxRate
+    function one(address){
+     db.collection(address).save({
+        query: {type: "bot"}, 
+    }, 
+        function(err,doc){
+            console.log(doc)
+            two(address)
+        }) // a fake bot account
+    }  
+     
+    function two(address){    
      db.collection(address).save({
         query: {type: "contract", currency: "RES", taxRate: 0.02}, 
     }, 
         function(err,doc){
             console.log(doc)
+            three(address)
         })    
-    
-
-
-    //get taxRate
+    }
+    function three(address){
      db.collection(address).save({
         query: {type: "passport", network: "BitNation"}, 
     }, 
         function(err,doc){
             console.log(doc)
-        })    
-        add(address)
+        next(address)
+        }) 
+    }
+    one(address)
 }
 
 
-function add(adress){
-  
+function next(address){
+  console.log(address)
 
-    function adddd(){    
+    function one(address){    
     // upsert dividend_pathways
     db.collection(address).findAndModify({
         query: {type: "dividend_pathway", account: myRandomElement.value, currency: "RES", taxRate: 0.02}, 
@@ -74,9 +86,12 @@ function add(adress){
         
     }, 
         function(err,doc){
+          console.log(err)
             console.log(doc)
+            two(address)
         })
-        
+    }
+        function two(address){
     // upsert safety_net pathway (mirror of dividend pathway)
     db.collection(address).findAndModify({
         query: {type: "safety_net_pathway", account: myRandomElement.value, currency: "RES", taxRate: 0.02}, 
@@ -87,9 +102,10 @@ function add(adress){
     }, 
         function(err,doc){
             console.log(doc)
+            three(address)
         })
-
-        
+}
+        function three(address){
    // upsert safety net (sum of all safety_net_pathways)
     db.collection(address).findAndModify({
         query: {type: "total_safety_net", currency: "RES", taxRate: 0.02}, 
@@ -100,15 +116,20 @@ function add(adress){
     }, 
         function(err,doc){
             console.log(doc)
+                    again()
+
         })
-        again()
 }
+one(address)
+  
+
 
 function again(){
   if(i<people.length){
 i++
 loop()
 }
+
 }
 }
 
