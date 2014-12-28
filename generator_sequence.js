@@ -116,6 +116,52 @@ function next(address){
     }, 
         function(err,doc){
             console.log(doc)
+                    four(address)
+
+        })
+        }
+         function four(address){
+   // upsert safety net (sum of all safety_net_pathways)
+    db.collection(address).findAndModify({
+        query: {type: "total_safety_net", currency: "RES", taxRate: 0.02}, 
+        update:{$inc:{total_pathway:Number(Math.floor( Math.random() * 200000 ) )}}, 
+        upsert: true,
+        new: true
+        
+    }, 
+        function(err,doc){
+            console.log(doc)
+                    five(address)
+
+        })
+         }
+         function five(address){
+   // upsert safety net (sum of all safety_net_pathways)
+    db.collection(address).findAndModify({
+        query: {type: "consumption_outside_network", currency: "RES", taxRate: 0.02}, 
+        update:{$inc:{total_amount:Number(0 )}}, 
+        upsert: true,
+        new: true
+        
+    }, 
+        function(err,doc){
+            console.log(doc)
+                    six(address)
+
+        })
+}
+
+ function six(address){
+   // upsert safety net (sum of all safety_net_pathways)
+    db.collection(address).findAndModify({
+        query: {type: "tax_blob", currency: "RES", taxRate: 0.02}, 
+        update:{$inc:{total_amount:Number(0  )}}, 
+        upsert: true,
+        new: true
+        
+    }, 
+        function(err,doc){
+            console.log(doc)
                     again()
 
         })
@@ -125,7 +171,7 @@ one(address)
 
 
 function again(){
-  if(i<people.length){
+  if(i<1){
 i++
 loop()
 }
