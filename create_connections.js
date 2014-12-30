@@ -38,6 +38,7 @@ for(var i =0;i<3;i++){
     
     var account = accounts.randomElement()
 for(var i =0;i<some_random_accounts.length;i++){
+<<<<<<< HEAD
     create_connections(account, some_random_accounts[i])
 
 }
@@ -45,6 +46,12 @@ for(var i =0;i<some_random_accounts.length;i++){
     
     
     
+=======
+    create_connections("rNBQcV6k1iyvAWZ3MkZmHSFT5gpo8ZDXBi", some_random_accounts[i])
+
+}
+    }
+>>>>>>> 35d4685606580205d73e733ae300e955025a357b
 
 
     function create_connections(account, destination){    
@@ -89,6 +96,9 @@ for(var i =0;i<some_random_accounts.length;i++){
         function(err,doc){
             console.log(doc)
         })
+<<<<<<< HEAD
         
+=======
+>>>>>>> 35d4685606580205d73e733ae300e955025a357b
    
     }
